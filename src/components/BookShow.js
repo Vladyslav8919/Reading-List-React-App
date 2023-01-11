@@ -1,9 +1,15 @@
-const BookShow = ({ book, editedBook, onDelete, onEdit }) => {
+import { useContext } from "react";
+import BookContext from "../context";
+
+const BookShow = ({ book }) => {
+  const { editedBook, deleteBookHandler, editBookHandler } =
+    useContext(BookContext);
+
   const handleDelete = (e) => {
-    onDelete(e.target.closest(".card").id);
+    deleteBookHandler(e.target.closest(".card").id);
   };
   const handleEdit = (e) => {
-    onEdit(e.target.closest(".card").id);
+    editBookHandler(e.target.closest(".card").id);
   };
 
   return (

@@ -1,6 +1,10 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
+import BookContext from "../context";
 
-const BookCreate = ({ onAddBook, editedBook, isEditing, onUpdate }) => {
+const BookCreate = () => {
+  const { addBookHandler, editedBook, isEditing, updateBookHandler } =
+    useContext(BookContext);
+
   const sectionRef = useRef();
   const titleInputRef = useRef("");
   const authorInputRef = useRef("");
@@ -44,31 +48,10 @@ const BookCreate = ({ onAddBook, editedBook, isEditing, onUpdate }) => {
     e.preventDefault();
 
     if (isEditing) {
-      setInputFields(onUpdate, editedBook.id);
+      setInputFields(updateBookHandler, editedBook.id);
     } else {
-      setInputFields(onAddBook, "b" + Math.floor(Math.random() * 9999));
+      setInputFields(addBookHandler, "b" + Math.floor(Math.random() * 9999));
     }
-
-    // if (isEditing) {
-    //   onUpdate({
-    //     id: editedBook.id,
-    //     title: titleInputRef.current.value,
-    //     author: authorInputRef.current.value,
-    //     description: descInputRef.current.value,
-    //     cover: coverInputRef.current.value,
-    //     photo: photoInputRef.current.value,
-    //   });
-    //   formRef.current.reset();
-    // } else {
-    //   onAddBook({
-    //     id: "b" + Math.floor(Math.random() * 1000),
-    //     title: titleInputRef.current.value,
-    //     author: authorInputRef.current.value,
-    //     description: descInputRef.current.value,
-    //     cover: coverInputRef.current.value,
-    //     photo: photoInputRef.current.value,
-    //   });
-    // }
 
     formRef.current.reset();
   };
