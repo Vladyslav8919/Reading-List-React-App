@@ -41,9 +41,35 @@ const App = () => {
         "https://m.media-amazon.com/images/M/MV5BMTQyODc5Nzc2MF5BMl5BanBnXkFtZTcwNDAwODgxOA@@._V1_.jpg",
     },
   ]);
+  const [editedBook, setEditedBook] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedBookIndex, setEditedBookIndex] = useState();
 
   const addBookHandler = (newBook) => {
     setBooksList([...booksList, newBook]);
+  };
+
+  const editBookHandler = (id) => {
+    const editedBook = booksList.filter((book) => {
+      return book.id === id;
+    });
+    const editedBookIndex = booksList.findIndex((book) => book.id === id);
+    setEditedBook(...editedBook);
+    setEditedBookIndex(editedBookIndex);
+    setIsEditing(true);
+  };
+
+  const updateBookHandler = (updatedBook) => {
+    const updatedBooksList = booksList.filter(
+      (book) => book.id !== editedBook.id
+    );
+
+    setBooksList([
+      ...updatedBooksList.slice(0, editedBookIndex),
+      updatedBook,
+      ...updatedBooksList.slice(editedBookIndex),
+    ]);
+    setIsEditing(false);
   };
 
   const deleteBookHandler = (id) => {
@@ -60,10 +86,17 @@ const App = () => {
       <Hero />
       <BookList
         books={booksList}
+        editedBook={editedBook}
         onDelete={deleteBookHandler}
         onClear={clearBooksListHandler}
+        onEdit={editBookHandler}
       />
-      <BookCreate onAddBook={addBookHandler} />
+      <BookCreate
+        onAddBook={addBookHandler}
+        editedBook={editedBook}
+        isEditing={isEditing}
+        onUpdate={updateBookHandler}
+      />
       <Footer />
     </div>
   );

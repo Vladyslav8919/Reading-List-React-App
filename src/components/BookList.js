@@ -1,6 +1,6 @@
 import BookShow from "./BookShow";
 
-const BookList = ({ books, onDelete, onClear }) => {
+const BookList = ({ books, editedBook, onDelete, onClear, onEdit }) => {
   return (
     <section className="section is-medium">
       <h1 className="title">Book List</h1>
@@ -17,7 +17,12 @@ const BookList = ({ books, onDelete, onClear }) => {
       <div className="columns is-multiline">
         {books.map((book) => (
           <div key={book.id} className="column is-one-third">
-            <BookShow book={book} onDelete={onDelete} />
+            <BookShow
+              book={book}
+              editedBook={editedBook}
+              onDelete={onDelete}
+              onEdit={onEdit}
+            />
           </div>
         ))}
       </div>
